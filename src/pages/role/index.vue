@@ -1,0 +1,176 @@
+<template>
+    <a-card>
+        <div>
+            <a-space class="operator">
+<!--                <a-button @click="addNew" type="primary">新建</a-button>-->
+            <add/>
+            </a-space>
+            <standard-table
+                    :columns="columns"
+                    :dataSource="dataSource"
+                    :selectedRows.sync="selectedRows"
+
+            >
+                <div slot="description" slot-scope="{text}">
+                    {{text}}
+                </div>
+                <div slot="action" slot-scope="{text, record}">
+                    <edit/>
+                    <a @click="deleteRecord(record.key)">
+                        <a-icon type="delete" />删除
+                    </a>
+                </div>
+
+            </standard-table>
+        </div>。
+    </a-card>
+</template>
+
+<script>
+  import StandardTable from '@/components/table/StandardTable'
+  import edit from "./components/edit";
+  import add from "./components/add";
+  const columns = [
+    {
+      title: '角色ID',
+      dataIndex: "uid"
+    },
+
+    {
+      title:'角色名',
+      dataIndex: "roleName",
+    },
+    {
+      title: '角色标识符',
+      dataIndex: "roleIdentifier"
+    },
+    {
+      title: '权限',
+      dataIndex: "roleIdentifier",
+    },
+    {
+      title: '备注',
+      dataIndex: "comment"
+    },
+    {
+      title: '创建时间',
+      dataIndex:"createTime"
+    },
+    {
+      title: '操作',
+      scopedSlots: { customRender: 'action' }
+    }
+  ]
+
+  const dataSource = []
+
+  for (let i = 0; i < 100; i++) {
+    dataSource.push({
+      key: i,
+      no: 'NO ' + i,
+      description: '这是一段描述',
+      callNo: Math.floor(Math.random() * 1000),
+      status: Math.floor(Math.random() * 10) % 4,
+      updatedAt: '2018-07-26'
+    })
+  }
+
+  export default {
+    name: 'QueryList',
+    components: {StandardTable,edit,add},
+    data () {
+      return {
+        advanced: true,
+        columns: columns,
+        dataSource: dataSource,
+        ModalText: 'Content of the modal',
+        visible: false,
+        confirmLoading: false,
+        selectedRows: [],
+        List:[],
+        privilegeID:[],
+      }
+    },
+    authorize: {
+      deleteRecord: 'delete'
+    },
+    mounted() {
+      this.getdata();
+    },
+    methods: {
+      deleteRecord(key) {
+        this.dataSource = this.dataSource.filter(item => item.key !== key)
+        this.selectedRows = this.selectedRows.filter(item => item.key !== key)
+      },
+      toggleAdvanced () {
+        this.advanced = !this.advanced
+      },
+      remove () {
+        this.dataSource = this.dataSource.filter(item => this.selectedRows.findIndex(row => row.key === item.key) === -1)
+        this.selectedRows = []
+      },
+
+      addNew () {
+        this.dataSource.unshift({
+          key: this.dataSource.length,
+          no: 'NO ' + this.dataSource.length,
+          description: '这是一段描述',
+          callNo: Math.floor(Math.random() * 1000),
+          status: Math.floor(Math.random() * 10) % 4,
+          updatedAt: '2018-07-26'
+        })
+      },
+      handleMenuClick (e) {
+        if (e.key === 'delete') {
+          this.remove()
+        }
+      },
+      getdata(){
+        this.axios({
+          method:'get',
+          dataType:'JSONP',
+          url:'/api/role'
+        }).then(res =>{
+          this.List=res.data
+          console.log(this.List)
+          for(let i=0;i<this.List.length;i++) {
+            this.axios({
+              method:'get',
+              dataType:'JSONP',
+              url:'/api/rolePrivilegeRelation'+this.List[i].roleID
+            }).then(res =>{
+              this.privilegeID=res.data
+              console.log(this.privilegeID)
+              for(let j=0;j<this.List.length;j++) {
+                if (this.privilegeID[j].reloID === this.List[i].roleID)
+                {
+                  this.List[i].privilegeName = this.privilegeID[j].privilegeName
+                  this.List[i].privilegeIdentifier = this.privilegeID[j].privilegeIdentifier
+                  this.List[i].comment = this.privilegeID[j].comment
+                }
+              }
+            })
+          }
+        })
+      }
+    }
+  }
+</script>
+
+<style lang="less" scoped>
+    .search{
+        margin-bottom: 54px;
+    }
+    .fold{
+        width: calc(100% - 216px);
+        display: inline-block
+    }
+    .operator{
+        margin-bottom: 18px;
+    }
+    @media screen and (max-width: 900px) {
+        .fold {
+            width: 100%;
+        }
+    }
+</style>
