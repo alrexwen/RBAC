@@ -104,18 +104,36 @@
     }
   ]
 
-  const dataSource = []
+  const dataSource = [
+    {
+      "uid": 1,
+      "username": "zhaoshuai",
+      "password": "123",
+      "email": "123@123.com",
+      "roleIdentifier":'教师',
+      "createTime": "2022-04-20 23:04:36"
+    },
+    {
+      "uid": 2,
+      "username": "jerry",
+      "password": "123",
+      "email": "123@fw.com",
+      "roleIdentifier":'学生、助教',
+      "createTime": "2022-04-20 23:07:29"
+    }
 
-  for (let i = 0; i < 100; i++) {
-    dataSource.push({
-      key: i,
-      no: 'NO ' + i,
-      description: '这是一段描述',
-      callNo: Math.floor(Math.random() * 1000),
-      status: Math.floor(Math.random() * 10) % 4,
-      updatedAt: '2018-07-26'
-    })
-  }
+  ]
+  //
+  // for (let i = 0; i < 100; i++) {
+  //   dataSource.push({
+  //     key: i,
+  //     no: 'NO ' + i,
+  //     description: '这是一段描述',
+  //     callNo: Math.floor(Math.random() * 1000),
+  //     status: Math.floor(Math.random() * 10) % 4,
+  //     updatedAt: '2018-07-26'
+  //   })
+  // }
 
   export default {
     name: 'QueryList',

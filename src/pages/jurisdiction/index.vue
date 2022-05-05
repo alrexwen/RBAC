@@ -34,12 +34,12 @@
   const columns = [
     {
       title: '权限ID',
-      dataIndex: 'no'
+      dataIndex: 'privilegeID'
     },
 
     {
       title:'权限名',
-      dataIndex: 'name',
+      dataIndex: 'privilegeName',
     },
     {
       title: '权限标识符',
@@ -59,7 +59,24 @@
     }
   ]
 
-  const dataSource = []
+  const dataSource = [
+    {
+      "privilegeID": 1,
+      "privilegeName": "privilege_1",
+      "privilegeIdentifier": "权限1",
+      "comment": "注释1",
+      "createTime": "2022-04-20 23:05:57"
+    },
+    {
+      "privilegeID": 2,
+      "privilegeName": "privilege_2",
+      "privilegeIdentifier": "权限2",
+      "comment": "注释2",
+      "createTime": "2022-04-20 23:06:34"
+    }
+
+
+  ]
 
   export default {
     name: 'QueryList',

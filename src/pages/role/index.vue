@@ -22,7 +22,7 @@
                 </div>
 
             </standard-table>
-        </div>。
+        </div>
     </a-card>
 </template>
 
@@ -33,7 +33,7 @@
   const columns = [
     {
       title: '角色ID',
-      dataIndex: "uid"
+      dataIndex: "roleID"
     },
 
     {
@@ -46,7 +46,7 @@
     },
     {
       title: '权限',
-      dataIndex: "roleIdentifier",
+      dataIndex: "privilegeIdentifier",
     },
     {
       title: '备注',
@@ -62,18 +62,26 @@
     }
   ]
 
-  const dataSource = []
+  const dataSource = [
+    {
+      "roleID": 1,
+      "roleName": "role_1",
+      "roleIdentifier": "角色1",
+      "privilegeIdentifier":'修改账户信息、添加班级通告、上传资源',
+      "comment": "注释1",
+      "createTime": "2022-04-20 23:08:09"
+    },
+    {
+      "roleID": 2,
+      "roleName": "role_2",
+      "roleIdentifier": "角色2",
+      "privilegeIdentifier":'修改账户信息',
+      "comment": "注释2",
+      "createTime": "2022-04-20 23:08:32"
+    }
 
-  for (let i = 0; i < 100; i++) {
-    dataSource.push({
-      key: i,
-      no: 'NO ' + i,
-      description: '这是一段描述',
-      callNo: Math.floor(Math.random() * 1000),
-      status: Math.floor(Math.random() * 10) % 4,
-      updatedAt: '2018-07-26'
-    })
-  }
+  ]
+
 
   export default {
     name: 'QueryList',
