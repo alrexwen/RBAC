@@ -4,18 +4,10 @@
             <a-form layout="horizontal">
                 <div :class="advanced ? null: 'fold'">
                     <a-row >
+
                         <a-col :md="8" :sm="24" >
                             <a-form-item
-                                    label="规则编号"
-                                    :labelCol="{span: 5}"
-                                    :wrapperCol="{span: 18, offset: 1}"
-                            >
-                                <a-input placeholder="请输入" />
-                            </a-form-item>
-                        </a-col>
-                        <a-col :md="8" :sm="24" >
-                            <a-form-item
-                                    label="账号"
+                                    label="账号ID"
                                     :labelCol="{span: 5}"
                                     :wrapperCol="{span: 18, offset: 1}"
                             >
@@ -25,7 +17,7 @@
 
                         <a-col :md="8" :sm="24" >
                             <a-form-item
-                                    label="姓名"
+                                    label="用户名"
                                     :labelCol="{span: 5}"
                                     :wrapperCol="{span: 18, offset: 1}"
                             >
@@ -48,7 +40,7 @@
                 <a-dropdown>
                     <a-menu @click="handleMenuClick" slot="overlay">
                         <a-menu-item key="delete">删除</a-menu-item>
-                        <a-menu-item key="audit">审批</a-menu-item>
+                        <a-menu-item key="audit">重置密码</a-menu-item>
                     </a-menu>
                     <a-button>
                         更多操作 <a-icon type="down" />
@@ -57,7 +49,7 @@
             </a-space>
             <standard-table
                     :columns="columns"
-                    :dataSource="dataSource"
+                    :dataSource="List"
                     :selectedRows.sync="selectedRows"
             >
                 <div slot="action" slot-scope="{text, record}">
@@ -80,10 +72,10 @@
       title: '账号id',
       dataIndex: 'uid',
       sorter: true,
-      needTotal: true,
+      //needTotal: true,
     },
     {
-      title:'姓名',
+      title:'用户名',
       dataIndex: "username",
     },
     {
@@ -96,7 +88,7 @@
     },
     {
       title: '角色',
-  dataIndex:'roleIdentifier'
+      dataIndex:'roleName'
     },
     {
       title: '操作',
@@ -106,24 +98,32 @@
 
   const dataSource = [
     {
-      "uid": 1,
+      "uid": 10000,
       "username": "zhaoshuai",
       "password": "123",
-      "email": "123@123.com",
-      "roleIdentifier":'教师',
+      "email": "123@test.com",
+      "roleIdentifier":'测试角色1',
       "createTime": "2022-04-20 23:04:36"
     },
     {
-      "uid": 2,
+      "uid": 10001,
       "username": "jerry",
       "password": "123",
-      "email": "123@fw.com",
-      "roleIdentifier":'学生、助教',
+      "email": "123@test.com",
+      "roleIdentifier":'测试角色2',
+      "createTime": "2022-04-20 23:07:29"
+    },
+    {
+      "uid": 10002,
+      "username": "tom",
+      "password": "123",
+      "email": "123@test.com",
+      "roleIdentifier":'测试角色1 测试角色2',
       "createTime": "2022-04-20 23:07:29"
     }
 
   ]
-  //
+
   // for (let i = 0; i < 100; i++) {
   //   dataSource.push({
   //     key: i,
@@ -145,7 +145,7 @@
         dataSource: dataSource,
         selectedRows: [],
         List:[],
-        privilegeID:[],
+        roles:[],
       }
     },
     authorize: {
@@ -188,27 +188,26 @@
           url:'/api/account'
         }).then(res =>{
           this.List=res.data.data
-          console.log(this.List)
+          //console.log(this.List)
           for(let i=0;i<this.List.length;i++) {
+            this.List[i].roleName=""
             this.axios({
               method:'get',
               dataType:'JSONP',
-              url:'/api/userRoleRelation'+this.List[i].userID
+              url:'/api/userRoleRelation/?userID='+this.List[i].uid
             }).then(res =>{
-              this.privilegeID=res.data
-              console.log(this.privilegeID)
-              for(let j=0;j<this.List.length;j++) {
-                if (this.privilegeID[j].userID === this.List[i].userID)
-                {
-                  this.List[i].roleName = this.privilegeID[j].roleName
-                  this.List[i].roleIdentifier = this.privilegeID[j].roleIdentifier
-                  this.List[i].comment = this.privilegeID[j].comment
-                }
+              this.roles=res.data.data
+              //console.log(this.privilegeID)
+              for(let j=0;j<this.roles.length;j++) {
+                console.log(this.roles[j].roleName)
+                this.List[i].roleName += this.roles[j].roleName
+
               }
 
 
             })
           }
+
         })
       }
     }

@@ -18,11 +18,11 @@
                     <a-input v-model="form.name" />
                 </a-form-model-item>
                 <a-form-model-item label="权限">
-            <a-select mode="tags" style="width: 100%" :token-separators="[',']" >
-                <a-select-option v-for="i in 25" :key="(i + 9).toString(36) + i">
-                    {{ (i + 9).toString(36) + i }}
-                </a-select-option>
-            </a-select>
+                    <a-select mode="tags" style="width: 100%" :token-separators="[',']" >
+                        <a-select-option v-for="i in 25" :key="(i + 9).toString(36) + i">
+                            {{ (i + 9).toString(36) + i }}
+                        </a-select-option>
+                    </a-select>
                 </a-form-model-item>
             </a-form-model>
         </a-modal>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <a type="primary" @click="showModal">
-            编辑
+          <a-icon type="edit-outlined"/>编辑
         </a>
         <a-modal
                 title="编辑"
@@ -12,13 +12,18 @@
         >
             <a-form-model :model="form"  >
                 <a-form-model-item label="账号ID">
-                    001
+                    10000
                 </a-form-model-item>
-                <a-form-model-item label="账号">
+                <a-form-model-item label="用户名">
                     <a-input v-model="form.nam" />
                 </a-form-model-item>
-                <a-form-model-item label="姓名">
+                <a-form-model-item label="邮箱">
                     <a-input v-model="form.name" />
+                </a-form-model-item>
+                <a-form-model-item label="角色">
+                  <a-select mode="tags" style="width: 100%" :token-separators="[',']" :options="form.roles">
+
+                  </a-select>
                 </a-form-model-item>
             </a-form-model>
         </a-modal>
@@ -34,6 +39,7 @@
         confirmLoading: false,
         form: {
           name: '',
+          roles:[{value:"1",label:"测试角色1"},{value:"2",label:"测试角色2"}],
         },
       };
     },

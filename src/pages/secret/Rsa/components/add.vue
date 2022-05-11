@@ -13,10 +13,10 @@
             <a-form-model :model="form"  >
 
                 <a-form-model-item label="公钥">
-                    <a-textarea placeholder="Basic usage" :rows="4" />
+                    <a-textarea placeholder="PKCS8 格式-----BEGIN PUBLIC KEY-----" :rows="4" />
                 </a-form-model-item>
                 <a-form-model-item label="私钥">
-                    <a-textarea placeholder="Basic usage" :rows="4" />
+                    <a-textarea placeholder="PKCS8 格式-----BEGIN PRIVATE KEY-----" :rows="4" />
                 </a-form-model-item>
                 <a-form-model-item label="过期时间">
                     <a-date-picker style="width: 100%" />

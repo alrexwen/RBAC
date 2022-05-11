@@ -65,17 +65,17 @@
   const dataSource = [
     {
       "roleID": 1,
-      "roleName": "role_1",
-      "roleIdentifier": "角色1",
-      "privilegeIdentifier":'修改账户信息、添加班级通告、上传资源',
+      "roleName": "测试角色1",
+      "roleIdentifier": "test_role_1",
+      "privilegeIdentifier":'测试权限1 测试权限3',
       "comment": "注释1",
       "createTime": "2022-04-20 23:08:09"
     },
     {
       "roleID": 2,
-      "roleName": "role_2",
-      "roleIdentifier": "角色2",
-      "privilegeIdentifier":'修改账户信息',
+      "roleName": "测试角色2",
+      "roleIdentifier": "test_role_2",
+      "privilegeIdentifier":'测试权限2 测试权限3',
       "comment": "注释2",
       "createTime": "2022-04-20 23:08:32"
     }

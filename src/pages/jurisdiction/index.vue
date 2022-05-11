@@ -62,17 +62,24 @@
   const dataSource = [
     {
       "privilegeID": 1,
-      "privilegeName": "privilege_1",
-      "privilegeIdentifier": "权限1",
+      "privilegeName": "测试权限1",
+      "privilegeIdentifier": "test_privilege_1",
       "comment": "注释1",
       "createTime": "2022-04-20 23:05:57"
     },
     {
       "privilegeID": 2,
-      "privilegeName": "privilege_2",
-      "privilegeIdentifier": "权限2",
+      "privilegeName": "测试权限2",
+      "privilegeIdentifier": "test_privilege_1",
       "comment": "注释2",
       "createTime": "2022-04-20 23:06:34"
+    },
+    {
+      "privilegeID": 78,
+      "privilegeName": "测试权限3",
+      "privilegeIdentifier": "test_privilege_3",
+      "comment": "注释3",
+      "createTime": "2022-04-20 23:08:54"
     }
 
 
