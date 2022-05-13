@@ -8,7 +8,7 @@
             </a-space>
             <standard-table
                     :columns="columns"
-                    :dataSource="dataSource"
+                    :dataSource="List"
                     :selectedRows.sync="selectedRows"
             >
                 <div slot="description" slot-scope="{text}">
@@ -40,7 +40,7 @@
 
     {
       title: '生成日期',
-      dataIndex: "deprecateTime",
+      dataIndex: "createTime",
       sorter: true
     },
     {
@@ -80,7 +80,8 @@
         advanced: true,
         columns: columns,
         dataSource: dataSource,
-        selectedRows: []
+        selectedRows: [],
+        List:[]
       }
     },
     authorize: {

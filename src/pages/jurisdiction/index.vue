@@ -7,7 +7,7 @@
             </a-space>
             <standard-table
                     :columns="columns"
-                    :dataSource="dataSource"
+                    :dataSource="List"
                     :selectedRows.sync="selectedRows"
             >
                 <div slot="description" slot-scope="{text}">
@@ -63,7 +63,7 @@
     {
       "privilegeID": 1,
       "privilegeName": "测试权限1",
-      "privilegeIdentifier": "test_privilege_1",
+      "privilegeIdentifier": ["hello","hi"],
       "comment": "注释1",
       "createTime": "2022-04-20 23:05:57"
     },
@@ -93,7 +93,8 @@
         advanced: true,
         columns: columns,
         dataSource: dataSource,
-        selectedRows: []
+        selectedRows: [],
+        List:[]
       }
     },
     authorize: {

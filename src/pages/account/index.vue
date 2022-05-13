@@ -188,25 +188,25 @@
           url:'/api/account'
         }).then(res =>{
           this.List=res.data.data
-          //console.log(this.List)
-          for(let i=0;i<this.List.length;i++) {
-            this.List[i].roleName=""
-            this.axios({
-              method:'get',
-              dataType:'JSONP',
-              url:'/api/userRoleRelation/?userID='+this.List[i].uid
-            }).then(res =>{
-              this.roles=res.data.data
-              //console.log(this.privilegeID)
-              for(let j=0;j<this.roles.length;j++) {
-                console.log(this.roles[j].roleName)
-                this.List[i].roleName += this.roles[j].roleName
-
-              }
-
-
-            })
-          }
+          // //console.log(this.List)
+          // for(let i=0;i<this.List.length;i++) {
+          //   this.List[i].roleName=""
+          //   this.axios({
+          //     method:'get',
+          //     dataType:'JSONP',
+          //     url:'/api/userRoleRelation/?userID='+this.List[i].uid
+          //   }).then(res =>{
+          //     this.roles=res.data.data
+          //     //console.log(this.privilegeID)
+          //     for(let j=0;j<this.roles.length;j++) {
+          //       console.log(this.roles[j].roleName)
+          //       this.List[i].roleName += this.roles[j].roleName
+          //
+          //     }
+          //
+          //
+          //   })
+          // }
 
         })
       }

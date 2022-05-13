@@ -8,7 +8,7 @@
             </a-space>
             <standard-table
                     :columns="columns"
-                    :dataSource="dataSource"
+                    :dataSource="List"
                     :selectedRows.sync="selectedRows"
             >
                 <div slot="description" slot-scope="{text}">
@@ -79,7 +79,8 @@
         advanced: true,
         columns: columns,
         dataSource: dataSource,
-        selectedRows: []
+        selectedRows: [],
+        List:[]
       }
     },
     authorize: {
