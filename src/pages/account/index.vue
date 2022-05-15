@@ -49,7 +49,7 @@
             </a-space>
             <standard-table
                     :columns="columns"
-                    :dataSource="List"
+                    :dataSource="info"
                     :selectedRows.sync="selectedRows"
             >
                 <div slot="action" slot-scope="{text, record}">
@@ -146,6 +146,7 @@
         selectedRows: [],
         List:[],
         roles:[],
+        info:[]
       }
     },
     authorize: {
@@ -188,26 +189,25 @@
           url:'/api/account'
         }).then(res =>{
           this.List=res.data.data
-          //console.log(this.List)
+          console.log(this.List)
           for(let i=0;i<this.List.length;i++) {
-            this.List[i].roleName=""
+            // this.List[i].roleName=""
             this.axios({
               method:'get',
               dataType:'JSONP',
               url:'/api/userRoleRelation/?userID='+this.List[i].uid
             }).then(res =>{
-              this.roles=res.data.data
-              //console.log(this.privilegeID)
-              for(let j=0;j<this.roles.length;j++) {
-                console.log(this.roles[j].roleName)
-                this.List[i].roleName += this.roles[j].roleName
-
-              }
-
-
+              this.roles.push(res.data.data)
             })
-          }
 
+         for(let j=0;j<this.roles.length;j++){
+
+            if(this.List[i].uid === this.roles[j].roleID) {
+              console.log(1)
+              this.List[i].roleIdentifier =this.roles[j].roleName
+            }
+          } }
+        this.info = this.List
         })
       }
     }

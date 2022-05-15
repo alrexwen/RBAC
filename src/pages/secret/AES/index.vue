@@ -120,7 +120,7 @@
         this.axios({
           method:'get',
           dataType:'JSONP',
-          url:'/api/rsaKey'
+          url:'/rsaKey'
         }).then(res =>{
           this.List=res.data.data
           console.log(this.List)
