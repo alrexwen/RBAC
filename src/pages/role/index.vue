@@ -7,8 +7,9 @@
             </a-space>
             <standard-table
                     :columns="columns"
-                    :dataSource="dataSource"
+                    :dataSource="List"
                     :selectedRows.sync="selectedRows"
+                    ref="tableList"
 
             >
                 <div slot="description" slot-scope="{text}">
@@ -46,7 +47,7 @@
     },
     {
       title: '权限',
-      dataIndex: "privilegeIdentifier",
+      dataIndex: "privilegeName",
     },
     {
       title: '备注',
@@ -139,26 +140,25 @@
           dataType:'JSONP',
           url:'/api/role'
         }).then(res =>{
-          this.List=res.data
-          console.log(this.List)
-          for(let i=0;i<this.List.length;i++) {
-            this.axios({
-              method:'get',
-              dataType:'JSONP',
-              url:'/api/rolePrivilegeRelation'+this.List[i].roleID
-            }).then(res =>{
-              this.privilegeID=res.data
-              console.log(this.privilegeID)
-              for(let j=0;j<this.List.length;j++) {
-                if (this.privilegeID[j].reloID === this.List[i].roleID)
-                {
-                  this.List[i].privilegeName = this.privilegeID[j].privilegeName
-                  this.List[i].privilegeIdentifier = this.privilegeID[j].privilegeIdentifier
-                  this.List[i].comment = this.privilegeID[j].comment
-                }
-              }
-            })
-          }
+
+          this.List=res.data.data
+          // //console.log(this.List)
+          // for(let i=0;i<this.List.length;i++) {
+          //   this.axios({
+          //     method:'get',
+          //     dataType:'JSONP',
+          //     url:'/api/rolePrivilegeRelation?roleID='+this.List[i].roleID
+          //   }).then(res =>{
+          //     this.List[i].privilegeName = "";
+          //     for(let j=0;j<res.data.data.length;j++) {
+          //       this.List[i].privilegeName += res.data.data[i].privilegeName+' '
+          //     }
+          //
+          //   })
+          // }
+          // this.List.push(this.List.clone())
+          // this.$forceUpdate()
+          // //this.$refs.tableList.refresh()
         })
       }
     }
