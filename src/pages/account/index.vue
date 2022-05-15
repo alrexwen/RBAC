@@ -8,26 +8,28 @@
                         <a-col :md="8" :sm="24" >
                             <a-form-item
                                     label="账号ID"
+
                                     :labelCol="{span: 5}"
                                     :wrapperCol="{span: 18, offset: 1}"
                             >
-                                <a-input-number style="width: 100%" placeholder="请输入" />
+                                <a-input-number  v-model="form.id" style="width: 100%" placeholder="请输入" />
                             </a-form-item>
                         </a-col>
 
-                        <a-col :md="8" :sm="24" >
-                            <a-form-item
-                                    label="用户名"
-                                    :labelCol="{span: 5}"
-                                    :wrapperCol="{span: 18, offset: 1}"
-                            >
-                                <a-input placeholder="请输入" />
-                            </a-form-item>
-                        </a-col>
+<!--                        <a-col :md="8" :sm="24" >-->
+<!--                            <a-form-item-->
+<!--                                    label="用户名"-->
+
+<!--                                    :labelCol="{span: 5}"-->
+<!--                                    :wrapperCol="{span: 18, offset: 1}"-->
+<!--                            >-->
+<!--                                <a-input placeholder="请输入" v-model="form.name"/>-->
+<!--                            </a-form-item>-->
+<!--                        </a-col>-->
                     </a-row>
                 </div>
                 <span style="float: right; margin-top: 3px;">
-          <a-button type="primary">查询</a-button>
+          <a-button type="primary" @click="getSreach">查询</a-button>
           <a-button style="margin-left: 8px">重置</a-button>
 
         </span>
@@ -35,7 +37,7 @@
         </div>
         <div>
             <a-space class="operator">
-<!--                <a-button @click="addNew" type="primary">新建</a-button>-->
+                <!--                <a-button @click="addNew" type="primary">新建</a-button>-->
                 <add/>
                 <a-dropdown>
                     <a-menu @click="handleMenuClick" slot="overlay">
@@ -49,7 +51,7 @@
             </a-space>
             <standard-table
                     :columns="columns"
-                    :dataSource="info"
+                    :dataSource="List"
                     :selectedRows.sync="selectedRows"
             >
                 <div slot="action" slot-scope="{text, record}">
@@ -124,29 +126,21 @@
 
   ]
 
-  // for (let i = 0; i < 100; i++) {
-  //   dataSource.push({
-  //     key: i,
-  //     no: 'NO ' + i,
-  //     description: '这是一段描述',
-  //     callNo: Math.floor(Math.random() * 1000),
-  //     status: Math.floor(Math.random() * 10) % 4,
-  //     updatedAt: '2018-07-26'
-  //   })
-  // }
-
   export default {
     name: 'QueryList',
-    components: {StandardTable,add,edit},
-    data () {
+    components: {StandardTable, add, edit},
+    data() {
       return {
         advanced: true,
         columns: columns,
         dataSource: dataSource,
         selectedRows: [],
-        List:[],
-        roles:[],
-        info:[]
+        List: [],
+        roles: [],
+        form: {
+          // name: '',
+          id: '',
+        },
       }
     },
     authorize: {
@@ -157,76 +151,75 @@
     },
     methods: {
       deleteRecord(key) {
-        this.dataSource = this.dataSource.filter(item => item.key !== key)
-        this.selectedRows = this.selectedRows.filter(item => item.key !== key)
+        console.log(key)
       },
-      toggleAdvanced () {
+      toggleAdvanced() {
         this.advanced = !this.advanced
       },
-      remove () {
+      remove() {
         this.dataSource = this.dataSource.filter(item => this.selectedRows.findIndex(row => row.key === item.key) === -1)
         this.selectedRows = []
       },
-      addNew () {
-        this.dataSource.unshift({
-          key: this.dataSource.length,
-          no: 'NO ' + this.dataSource.length,
-          description: '这是一段描述',
-          callNo: Math.floor(Math.random() * 1000),
-          status: Math.floor(Math.random() * 10) % 4,
-          updatedAt: '2018-07-26'
-        })
-      },
-      handleMenuClick (e) {
+
+      handleMenuClick(e) {
         if (e.key === 'delete') {
           this.remove()
         }
       },
-      getdata(){
+      getdata() {
         this.axios({
-          method:'get',
-          dataType:'JSONP',
-          url:'/api/account'
-        }).then(res =>{
-          this.List=res.data.data
-          //console.log(this.List)
-          for(let i=0;i<this.List.length;i++) {
-            this.List[i].roleName=""
+          method: 'get',
+          dataType: 'JSONP',
+          url: '/api/account'
+        }).then(res => {
+          this.List = res.data.data
+          console.log(this.List)
+          for (let i = 0; i < this.List.length; i++) {
+            this.List[i].key = i
+            this.List[i].roleName = ""
             this.axios({
-              method:'get',
-              dataType:'JSONP',
-              url:'/api/userRoleRelation/?userID='+this.List[i].uid
-            }).then(res =>{
-              this.roles=res.data.data
-              //console.log(this.privilegeID)
-              for(let j=0;j<this.roles.length;j++) {
+              method: 'get',
+              dataType: 'JSONP',
+              url: '/api/userRoleRelation/?userID=' + this.List[i].uid
+            }).then(res => {
+              this.roles = res.data.data
+              // console.log(this.roles)
+              for (let j = 0; j < this.roles.length; j++) {
                 console.log(this.roles[j].roleName)
                 this.List[i].roleName += this.roles[j].roleName
               }
             })
           }
-          // //console.log(this.List)
-          // for(let i=0;i<this.List.length;i++) {
-          //   this.List[i].roleName=""
-          //   this.axios({
-          //     method:'get',
-          //     dataType:'JSONP',
-          //     url:'/api/userRoleRelation/?userID='+this.List[i].uid
-          //   }).then(res =>{
-          //     this.roles=res.data.data
-          //     //console.log(this.privilegeID)
-          //     for(let j=0;j<this.roles.length;j++) {
-          //       console.log(this.roles[j].roleName)
-          //       this.List[i].roleName += this.roles[j].roleName
-          //
-          //     }
-          //
-          //
-          //   })
-          // }
-        })
-      }
 
+        })
+      },
+      getSreach() {
+        this.axios({
+          method: 'get',
+          url: '/api/account/' + this.form.id,
+
+        }).then(res => {
+          this.List = [res.data.data]
+          console.log(this.List)
+          for (let i = 0; i < this.List.length; i++) {
+            this.List[i].key = i
+            this.List[i].roleName = ""
+            this.axios({
+              method: 'get',
+              dataType: 'JSONP',
+              url: '/api/userRoleRelation/?userID=' + this.List[i].uid
+            }).then(res => {
+              this.roles = res.data.data
+              // console.log(this.roles)
+              for (let j = 0; j < this.roles.length; j++) {
+                console.log(this.roles[j].roleName)
+                this.List[i].roleName += this.roles[j].roleName
+              }
+            })
+          }
+
+        })
+      },
     }
   }
 </script>

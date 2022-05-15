@@ -98,7 +98,7 @@
       toggleAdvanced () {
         this.advanced = !this.advanced
       },
-      remove () {
+      addNew () {
         this.dataSource = this.dataSource.filter(item => this.selectedRows.findIndex(row => row.key === item.key) === -1)
         this.selectedRows = []
       },
@@ -109,6 +109,9 @@
           url:'/api/rsaKey'
         }).then(res =>{
           this.List=res.data.data
+          for(let i=0;i<this.List.length;i++) {
+            this.List[i].key = i
+          }
           console.log(this.List)
         })
       },

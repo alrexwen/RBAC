@@ -102,20 +102,14 @@
         this.selectedRows = []
       },
 
-      addNew () {
-        this.dataSource.unshift({
-          key: this.dataSource.length,
-          no: 'NO ' + this.dataSource.length,
-          description: '这是一段描述',
-          callNo: Math.floor(Math.random() * 1000),
-          status: Math.floor(Math.random() * 10) % 4,
-          updatedAt: '2018-07-26'
-        })
-      },
+
       handleMenuClick (e) {
         if (e.key === 'delete') {
           this.remove()
         }
+      },
+      addNew(){
+        console.log(1)
       },
       getdata(){
         this.axios({
@@ -124,6 +118,9 @@
           url:'/rsaKey'
         }).then(res =>{
           this.List=res.data.data
+          for(let i=0;i<this.List.length;i++) {
+            this.List[i].key = i
+          }
           console.log(this.List)
         })
       },

@@ -119,16 +119,7 @@
         this.selectedRows = []
       },
 
-      addNew () {
-        this.dataSource.unshift({
-          key: this.dataSource.length,
-          no: 'NO ' + this.dataSource.length,
-          description: '这是一段描述',
-          callNo: Math.floor(Math.random() * 1000),
-          status: Math.floor(Math.random() * 10) % 4,
-          updatedAt: '2018-07-26'
-        })
-      },
+
       handleMenuClick (e) {
         if (e.key === 'delete') {
           this.remove()
@@ -143,7 +134,10 @@
 
           this.List=res.data.data
           // //console.log(this.List)
-          // for(let i=0;i<this.List.length;i++) {
+          for(let i=0;i<this.List.length;i++) {
+            this.List[i].key = i
+          }
+          // }
           //   this.axios({
           //     method:'get',
           //     dataType:'JSONP',

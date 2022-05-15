@@ -19,19 +19,19 @@
         >
             <a-form-model :model="form"  >
                 <a-form-model-item label="用户名">
-                    <a-input v-model="form.desc" />
+                    <a-input v-model="form.username" />
                 </a-form-model-item>
               <a-form-model-item label="邮箱">
-                <a-input v-model="form.desc" />
+                <a-input v-model="form.email" />
               </a-form-model-item>
-                <a-form-model-item label="密码">
-                    <a-input v-model="form.desc" />
+                <a-form-model-item name="password" label="密码" :rules="[{ required: true, message: 'Please input your password!' }]">
+                        <a-input-password v-model="form.password" />
                 </a-form-model-item>
-              <a-form-model-item label="确认密码">
-                <a-input v-model="form.desc" />
+              <a-form-model-item name="password" label="确认密码" :rules="[{ required: true, message: 'Please input your password!' }]">
+                  <a-input-password v-model="form.password1" />
               </a-form-model-item>
-              <a-form-model-item label="权限">
-                <a-select mode="tags" style="width: 100%" :token-separators="[',']">
+              <a-form-model-item label="角色">
+                <a-select mode="tags" style="width: 100%" :token-separators="[',']" :options="roles" v-model="form.roles">
 
                 </a-select>
               </a-form-model-item>
@@ -49,8 +49,12 @@
         ModalText: 'Content of the modal',
         visible: false,
         confirmLoading: false,
+        roles:[{value:"1",label:"测试角色1"},{value:"2",label:"测试角色2"}],
         form: {
-          name: '',
+          username: '',
+          email:'',
+          password:'',
+          password1:''
         },
       };
     },
@@ -59,12 +63,23 @@
         this.visible = true;
       },
       handleOk() {
-        this.ModalText = 'The modal will be closed after two seconds';
-        this.confirmLoading = true;
-        setTimeout(() => {
-          this.visible = false;
-          this.confirmLoading = false;
-        }, 2000);
+        console.log(this.form)
+        this.axios({
+          method:'post',
+          url:'/api/',
+          headers:{
+            'Content-type': 'application/json'
+          },
+          data:JSON.stringify(this.form)
+        }).then(res=>
+        {
+          console.log(res.data);
+        })
+
+        // setTimeout(() => {
+        //   this.visible = false;
+        //   this.confirmLoading = false;
+        // }, 2000);
       },
       handleCancel() {
         console.log('Clicked cancel button');

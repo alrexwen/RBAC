@@ -129,6 +129,9 @@
           url:'/api/privilege'
         }).then(res =>{
           this.List=res.data.data
+          for(let i=0;i<this.List.length;i++) {
+            this.List[i].key = i
+          }
           console.log(this.List)
         })
       }
